@@ -3,6 +3,8 @@ name: test
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 env:
   CARGO_TERM_COLOR: always
@@ -13,10 +15,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Update rust
-      uses: actions-rs/toolchain@v1
+    - uses: Swatinem/rust-cache@v1
       with:
-          toolchain: stable
-          override: true
+        cache-on-failure: true
     - name: Run tests
       run: cargo test
+      env:
+        RUST_BACKTRACE: full
